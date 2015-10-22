@@ -6,16 +6,18 @@ function getParameterByName(name) {
 }
 
 var publicProfileUri = getParameterByName('profile-uri');
+var fullName = getParameterByName('full-name');
 
 var div = document.createElement("div");
 div.id = 'overlay';
-div.innerHTML = '</br></br></br></br>Jarvis Chrome Extension';
+div.innerHTML = '<br><br>Jarvis Chrome Extension';
 document.body.appendChild(div);
 
-var buttonek = document.createElement("div");
-buttonek.id = 'jarvis_buttonek';
+var buttonekDiv = document.createElement("div");
+buttonekDiv.id = 'jarvis_buttonek';
 
 xhr = new XMLHttpRequest();
+// var url = "https://localhost:8443/jarvis/rest/validator";
 var url = "https://jarvis2.alviso.cz:8443/jarvis/rest/validator";
 xhr.open("POST", url, true);
 xhr.setRequestHeader("Content-type", "application/json");
@@ -25,21 +27,42 @@ xhr.setRequestHeader("Content-type", "application/json");
 xhr.onreadystatechange = function () { 
     if (xhr.readyState == 4 && xhr.status == 200) {
         var json = JSON.parse(xhr.responseText);
+        // test wether we found 
         if (json.profileValidationResponse.name === undefined) {
-        	buttonek.innerHTML = "</br><a class='btn-not-found' href=''>Go to Jarvis</a>";
+        	buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Go to Jarvis</a>";
+        	div.appendChild(buttonekDiv);
+        	
+        	var suggestionsArray = json.profileValidationResponse.suggestions;
+
+			if (suggestionsArray !== undefined) {
+        		var suggestionsDiv = document.createElement("div");
+        		suggestionsDiv.id = "suggestions";
+        		var suggestionsTable = "<br><table>";
+        		var suggestionsArrayLength = suggestionsArray.length;
+        		for (var i = 0; i < suggestionsArrayLength; i++) {
+    				suggestionsTable += "<tr><td>" + suggestionsArray[i] + "</td></tr>";
+				}
+        		suggestionsTable += "</table>";
+        		suggestionsDiv.innerHTML = suggestionsTable;
+        		div.appendChild(suggestionsDiv);
+        	} else {
+        		var noSuggestionsDiv = document.createElement("div");
+        		noSuggestionsDiv.id = "no-suggestions";
+        		noSuggestionsDiv.innerHTML = "<br>no suggestions from Jarvis";
+        		div.appendChild(noSuggestionsDiv);
+        	}
         } else {
-        	buttonek.innerHTML = "</br><a class='btn-found' href=''>Go to Jarvis</a>";
+        	buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Go to Jarvis</a>";
+        	div.appendChild(buttonekDiv);
         }
-        div.appendChild(buttonek);
         console.log("response: " + json.profileValidationResponse.name);
     }
 }
 
-
 var object = {
 	"profileValidationRequest": 
 		{ 
-			"name": "Doesn't Matter", 
+			"name": fullName, 
 			"profile_uri": publicProfileUri
 		}
 	};
