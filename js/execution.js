@@ -34,7 +34,7 @@ xhr.onreadystatechange = function () {
         	
         	var suggestionsArray = json.profileValidationResponse.suggestions;
 
-			if (suggestionsArray !== undefined) {
+			if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) === '[object Array]') {
         		var suggestionsDiv = document.createElement("div");
         		suggestionsDiv.id = "suggestions";
         		var suggestionsTable = "<br><table>";
@@ -45,6 +45,12 @@ xhr.onreadystatechange = function () {
         		suggestionsTable += "</table>";
         		suggestionsDiv.innerHTML = suggestionsTable;
         		div.appendChild(suggestionsDiv);
+        	} else if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) !== '[object Array]') {
+        		// single value, it requires special care
+        		var singleSuggestionDiv = document.createElement("div");
+        		singleSuggestionDiv.id = "suggestions";
+        		singleSuggestionDiv.innerHTML = "<br>" + suggestionsArray;
+        		div.appendChild(singleSuggestionDiv);
         	} else {
         		var noSuggestionsDiv = document.createElement("div");
         		noSuggestionsDiv.id = "no-suggestions";
