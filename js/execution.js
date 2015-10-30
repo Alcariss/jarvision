@@ -60,6 +60,27 @@ xhr.onreadystatechange = function () {
         } else {
         	buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Go to Jarvis</a>";
         	div.appendChild(buttonekDiv);
+        	
+        	var candidateNotes = json.profileValidationResponse.candidateNotes;
+        	if (candidateNotes !== undefined && Object.prototype.toString.call(candidateNotes) === '[object Array]') {
+        		// multiple notes
+        		var notesDiv = document.createElement("div");
+        		notesDiv.id = "notesDiv";
+        		var notesTable = "<br><table border='1'>";
+        		var candidateNotesLength = candidateNotes.length;
+        		for (var i = 0; i < candidateNotesLength; i++) {
+    				notesTable += "<tr><td align='left'>" + candidateNotes[i].created.substring(0, 10) + "<br>";
+    				notesTable += candidateNotes[i].author + "<br><br>";
+    				notesTable += candidateNotes[i].note + "</td></tr>";
+				}
+        		notesTable += "</table>";
+        		notesDiv.innerHTML = notesTable;
+        		div.appendChild(notesDiv);
+        	} else if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) !== '[object Array]') {
+        		// single value
+        	} else {
+        		// no notes
+        	}
         }
         console.log("response: " + json.profileValidationResponse.name);
     }
