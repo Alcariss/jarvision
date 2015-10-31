@@ -34,7 +34,7 @@ xhr.onreadystatechange = function () {
         	
         	var suggestionsArray = json.profileValidationResponse.suggestions;
 
-			if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) === '[object Array]') {
+			if (suggestionsArray !== undefined) {
         		var suggestionsDiv = document.createElement("div");
         		suggestionsDiv.id = "suggestions";
         		var suggestionsTable = "<br><table>";
@@ -45,12 +45,6 @@ xhr.onreadystatechange = function () {
         		suggestionsTable += "</table>";
         		suggestionsDiv.innerHTML = suggestionsTable;
         		div.appendChild(suggestionsDiv);
-        	} else if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) !== '[object Array]') {
-        		// single value, it requires special care
-        		var singleSuggestionDiv = document.createElement("div");
-        		singleSuggestionDiv.id = "suggestions";
-        		singleSuggestionDiv.innerHTML = "<br>" + suggestionsArray;
-        		div.appendChild(singleSuggestionDiv);
         	} else {
         		var noSuggestionsDiv = document.createElement("div");
         		noSuggestionsDiv.id = "no-suggestions";
@@ -60,27 +54,6 @@ xhr.onreadystatechange = function () {
         } else {
         	buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Go to Jarvis</a>";
         	div.appendChild(buttonekDiv);
-        	
-        	var candidateNotes = json.profileValidationResponse.candidateNotes;
-        	if (candidateNotes !== undefined && Object.prototype.toString.call(candidateNotes) === '[object Array]') {
-        		// multiple notes
-        		var notesDiv = document.createElement("div");
-        		notesDiv.id = "notesDiv";
-        		var notesTable = "<br><table border='1'>";
-        		var candidateNotesLength = candidateNotes.length;
-        		for (var i = 0; i < candidateNotesLength; i++) {
-    				notesTable += "<tr><td align='left'>" + candidateNotes[i].created.substring(0, 10) + "<br>";
-    				notesTable += candidateNotes[i].author + "<br><br>";
-    				notesTable += candidateNotes[i].note + "</td></tr>";
-				}
-        		notesTable += "</table>";
-        		notesDiv.innerHTML = notesTable;
-        		div.appendChild(notesDiv);
-        	} else if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) !== '[object Array]') {
-        		// single value
-        	} else {
-        		// no notes
-        	}
         }
         console.log("response: " + json.profileValidationResponse.name);
     }

@@ -13,7 +13,7 @@ if (!location.ancestorOrigins.contains(extensionOrigin)) {
 
     // Some styles for a fancy sidebar
     iframe.style.cssText = 'position:fixed;top:80px;left:0;display:block;' +
-                           'width:13%;height:80%;z-index:1000;';
+                           'width:30%;height:80%;z-index:1000;';
 	
     document.body.appendChild(iframe);
 }
