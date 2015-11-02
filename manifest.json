@@ -23,12 +23,9 @@
                 "https://*.linkedin.com/*"
             ],
             "css": [
-            	"css/styles.css",
-				"css/jquery-ui.css"
+            	"css/styles.css"
             ],
-            "js": [ "jquery-2.0.2.min.js",
-					"jquery-ui.min.js",
-					"background.js",
+            "js": [ 
 					"js/myscript.js"
             ],
             "run_at": "document_end"

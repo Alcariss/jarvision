@@ -29,7 +29,7 @@ xhr.onreadystatechange = function () {
         var json = JSON.parse(xhr.responseText);
         // test wether we found 
         if (json.profileValidationResponse.name === undefined) {
-        	buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Go to Jarvis</a>";
+        	buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
         	div.appendChild(buttonekDiv);
         	
         	var suggestionsArray = json.profileValidationResponse.suggestions;
@@ -52,7 +52,7 @@ xhr.onreadystatechange = function () {
         		div.appendChild(noSuggestionsDiv);
         	}
         } else {
-        	buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Go to Jarvis</a>";
+        	buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
         	div.appendChild(buttonekDiv);
         }
         console.log("response: " + json.profileValidationResponse.name);

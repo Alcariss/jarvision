@@ -1,3 +1,4 @@
+
 var extensionOrigin = 'chrome-extension://' + chrome.runtime.id;
 if (!location.ancestorOrigins.contains(extensionOrigin)) {
     // extract view-public-profile
@@ -12,8 +13,8 @@ if (!location.ancestorOrigins.contains(extensionOrigin)) {
     iframe.src = chrome.runtime.getURL('views/sidebar-frame.html?profile-uri=' + publicProfileUri + '&full-name=' + fullName);
 
     // Some styles for a fancy sidebar
-    iframe.style.cssText = 'position:fixed;top:80px;left:0;display:block;' +
-                           'width:30%;height:80%;z-index:1000;';
+    iframe.style.cssText = 'position:fixed;top:80px;left:0;display:block;background-color:gray;resize: both;overflow: auto;opacity: 0.8;' +
+                           'width:10%;height:80%;z-index:1000;';
 	
     document.body.appendChild(iframe);
 }
