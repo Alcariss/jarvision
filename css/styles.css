@@ -9,6 +9,7 @@
      padding:5px;
      text-align:center;
      background-color: #FFFFFF;
+	 overflow-y: scroll;
 /*      background-color : transparent; */
      z-index: 1000;
 }
