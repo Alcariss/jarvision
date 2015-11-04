@@ -32,7 +32,7 @@
         }
     ],
     "permissions": [
-        "<all_urls>"
+        "<all_urls>", "tabs"
   ],
   "permissions": [
     "tabs",

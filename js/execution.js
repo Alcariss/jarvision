@@ -45,7 +45,7 @@ xhr.onreadystatechange = function () {
         		suggestionsTable += "</table>";
         		suggestionsDiv.innerHTML = suggestionsTable;
         		div.appendChild(suggestionsDiv);
-        	} else if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
+        	} else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
                 // single value, it requires special care
                 var singleSuggestionDiv = document.createElement("div");
                 singleSuggestionDiv.id = "suggestions";
@@ -76,7 +76,7 @@ xhr.onreadystatechange = function () {
            		notesTable += "</table>";
            		notesDiv.innerHTML = notesTable;
            		div.appendChild(notesDiv);
-           } else if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
+           } else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
                    // single value
            } else {
                    // no notes
