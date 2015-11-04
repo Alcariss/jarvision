@@ -34,7 +34,7 @@ xhr.onreadystatechange = function () {
         	
         	var suggestionsArray = json.profileValidationResponse.suggestions;
 
-			if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) === '[object Array]') {
+			if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
         		var suggestionsDiv = document.createElement("div");
         		suggestionsDiv.id = "suggestions";
         		var suggestionsTable = "<br><table>";
@@ -45,7 +45,7 @@ xhr.onreadystatechange = function () {
         		suggestionsTable += "</table>";
         		suggestionsDiv.innerHTML = suggestionsTable;
         		div.appendChild(suggestionsDiv);
-        	} else if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) !== '[object Array]') {
+        	} else if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
                 // single value, it requires special care
                 var singleSuggestionDiv = document.createElement("div");
                 singleSuggestionDiv.id = "suggestions";
@@ -62,7 +62,7 @@ xhr.onreadystatechange = function () {
         	div.appendChild(buttonekDiv);
         	
         	var candidateNotes = json.profileValidationResponse.candidateNotes;
-            if (candidateNotes !== undefined && Object.prototype.toString.call(candidateNotes) === '[object Array]') {
+            if (candidateNotes !== undefined && isObjectArray(candidateNotes)) {
             	// multiple notes
             	var notesDiv = document.createElement("div");
             	notesDiv.id = "notesDiv";
@@ -76,7 +76,7 @@ xhr.onreadystatechange = function () {
            		notesTable += "</table>";
            		notesDiv.innerHTML = notesTable;
            		div.appendChild(notesDiv);
-           } else if (suggestionsArray !== undefined && Object.prototype.toString.call(suggestionsArray) !== '[object Array]') {
+           } else if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
                    // single value
            } else {
                    // no notes
@@ -84,6 +84,10 @@ xhr.onreadystatechange = function () {
         }
         console.log("response: " + json.profileValidationResponse.name);
     }
+}
+
+function isObjectArray(input) {
+	return Object.prototype.toString.call(input) === '[object Array]';
 }
 
 var object = {
