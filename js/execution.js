@@ -24,79 +24,88 @@ xhr.setRequestHeader("Content-type", "application/json");
 
 // TODO dodelat error handling
 
-xhr.onreadystatechange = function () { 
+xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
         var json = JSON.parse(xhr.responseText);
         // test wether we found 
         if (json.profileValidationResponse.name === undefined) {
-        	buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
-        	div.appendChild(buttonekDiv);
-        	
-        	var suggestionsArray = json.profileValidationResponse.suggestions;
+            buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
+            div.appendChild(buttonekDiv);
 
-			if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
-        		var suggestionsDiv = document.createElement("div");
-        		suggestionsDiv.id = "suggestions";
-        		var suggestionsTable = "<br><table>";
-        		var suggestionsArrayLength = suggestionsArray.length;
-        		for (var i = 0; i < suggestionsArrayLength; i++) {
-    				suggestionsTable += "<tr><td>" + suggestionsArray[i] + "</td></tr>";
-				}
-        		suggestionsTable += "</table>";
-        		suggestionsDiv.innerHTML = suggestionsTable;
-        		div.appendChild(suggestionsDiv);
-        	} else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
+            var suggestionsArray = json.profileValidationResponse.suggestions;
+
+            if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
+                var suggestionsDiv = document.createElement("div");
+                suggestionsDiv.id = "suggestions";
+                var suggestionsTable = "<br><table>";
+                var suggestionsArrayLength = suggestionsArray.length;
+                for (var i = 0; i < suggestionsArrayLength; i++) {
+                    suggestionsTable += "<tr><td>" + suggestionsArray[i] + "</td></tr>";
+                }
+                suggestionsTable += "</table>";
+                suggestionsDiv.innerHTML = suggestionsTable;
+                div.appendChild(suggestionsDiv);
+            } else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
                 // single value, it requires special care
                 var singleSuggestionDiv = document.createElement("div");
                 singleSuggestionDiv.id = "suggestions";
                 singleSuggestionDiv.innerHTML = "<br>" + suggestionsArray;
                 div.appendChild(singleSuggestionDiv);
-        	} else {
-        		var noSuggestionsDiv = document.createElement("div");
-        		noSuggestionsDiv.id = "no-suggestions";
-        		noSuggestionsDiv.innerHTML = "<br>no suggestions from Jarvis";
-        		div.appendChild(noSuggestionsDiv);
-        	}
+            } else {
+                var noSuggestionsDiv = document.createElement("div");
+                noSuggestionsDiv.id = "no-suggestions";
+                noSuggestionsDiv.innerHTML = "<br>no suggestions from Jarvis";
+                div.appendChild(noSuggestionsDiv);
+            }
         } else {
-        	buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
-        	div.appendChild(buttonekDiv);
-        	
-        	var candidateNotes = json.profileValidationResponse.candidateNotes;
+            buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
+            div.appendChild(buttonekDiv);
+
+            var candidateNotes = json.profileValidationResponse.candidateNotes;
             if (candidateNotes !== undefined && isObjectArray(candidateNotes)) {
-            	// multiple notes
-            	var notesDiv = document.createElement("div");
-            	notesDiv.id = "notesDiv";
-            	var notesTable = "<br><table border='1'>";
-            	var candidateNotesLength = candidateNotes.length;
-            	for (var i = 0; i < candidateNotesLength; i++) {
-            		notesTable += "<tr><td align='left'>" + candidateNotes[i].created.substring(0, 10) + "<br>";
-             		notesTable += candidateNotes[i].author + "<br><br>";
-            		notesTable += candidateNotes[i].note + "</td></tr>";
-            	}
-           		notesTable += "</table>";
-           		notesDiv.innerHTML = notesTable;
-           		div.appendChild(notesDiv);
-           } else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
-                   // single value
-           } else {
-                   // no notes
-           }
+                // multiple notes
+                var notesDiv = document.createElement("div");
+                notesDiv.id = "notesDiv";
+                var notesTable = "<br><table border='1'>";
+                var candidateNotesLength = candidateNotes.length;
+                for (var i = 0; i < candidateNotesLength; i++) {
+                    notesTable += "<tr><td align='left'>" + candidateNotes[i].created.substring(0, 10) + "<br>";
+                    notesTable += candidateNotes[i].author + "<br><br>";
+                    notesTable += candidateNotes[i].note + "</td></tr>";
+                }
+                notesTable += "</table>";
+                notesDiv.innerHTML = notesTable;
+                div.appendChild(notesDiv);
+            } else if (candidateNotes !== undefined && !isObjectArray(candidateNotes)) {
+                // single value
+                var noteDiv = document.createElement("div");
+                noteDiv.id = "notesDiv";
+                var noteTable = "<br><table border='1'>";
+
+                noteTable += "<tr><td align='left'>" + candidateNotes.created.substring(0, 10) + "<br>";
+                noteTable += candidateNotes.author + "<br><br>";
+                noteTable += candidateNotes.note + "</td></tr>";
+                noteTable += "</table>";
+                noteDiv.innerHTML = noteTable;
+                div.appendChild(noteDiv);
+            } else {
+                // no notes
+            }
         }
         console.log("response: " + json.profileValidationResponse.name);
     }
 }
 
 function isObjectArray(input) {
-	return Object.prototype.toString.call(input) === '[object Array]';
+    return Object.prototype.toString.call(input) === '[object Array]';
 }
 
 var object = {
-	"profileValidationRequest": 
-		{ 
-			"name": fullName, 
-			"profile_uri": publicProfileUri
-		}
-	};
+    "profileValidationRequest": {
+        "name": fullName,
+        "profile_uri": publicProfileUri
+    }
+};
 
 var data = JSON.stringify(object);
 
