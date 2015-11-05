@@ -93,6 +93,14 @@ xhr.onreadystatechange = function () {
             }
         }
         console.log("response: " + json.profileValidationResponse.name);
+    } else if (xhr.readyState == 4 && xhr.status != 200) {
+        console.log("ready state: " + xhr.readyState + " status: " + xhr.status);
+        var secExp = document.createElement("div");
+        secExp.id = 'securityException';
+        secExp.innerHTML = "<br><br>Security exception has expired, please click on " +
+            "<a href='https://jarvis2.alviso.cz:8443/jarvis/rest/validator' " +
+             "target='_blank'>Validate</a> and allow unsecure connection. Then refresh this site.";
+        div.appendChild(secExp);
     }
 }
 
