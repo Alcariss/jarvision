@@ -92,7 +92,6 @@ xhr.onreadystatechange = function () {
                 // no notes
             }
         }
-        console.log("response: " + json.profileValidationResponse.name);
     } else if (xhr.readyState == 4 && xhr.status != 200) {
         console.log("ready state: " + xhr.readyState + " status: " + xhr.status);
         var secExp = document.createElement("div");
