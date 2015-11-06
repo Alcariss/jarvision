@@ -8,6 +8,39 @@ function getParameterByName(name) {
 var publicProfileUri = getParameterByName('profile-uri');
 var fullName = getParameterByName('full-name');
 
+//parts of name variables for email generating
+var nameParts = fullName.split(' ');
+var firstName = nameParts[0].toLowerCase();
+var lastName = nameParts[1].toLowerCase();
+var mailVariations = [];
+var listMailsHtml = "";
+function mailGenerate(n1, n2) {
+	var variation1 = n1+'.'+n2+'@gmail.com';
+	mailVariations.push(variation1);
+	var variation2 = n1+n2+'@gmail.com';
+	mailVariations.push(variation2);
+	var variation3 = n1[0]+'.'+n2+'@gmail.com';
+	mailVariations.push(variation3);
+	var variation4 = n2+'.'+n1+'@gmail.com';
+	mailVariations.push(variation4);
+	var variation5 = n2+'.'+n1[0]+'@gmail.com';
+	mailVariations.push(variation5);
+	var variation6 = n1+'-'+n2+'@gmail.com';
+	mailVariations.push(variation6);
+	var variation7 = n1[0]+'-'+n2+'@gmail.com';
+	mailVariations.push(variation7);
+	var variation8 = n2+'-'+n1+'@gmail.com';
+	mailVariations.push(variation8);
+	var variation9 = n2+'-'+n1[0]+'@gmail.com';
+	mailVariations.push(variation9);
+};
+function listMails(x) {
+	listMailsHtml += "<h3>Possible Mails</h3>";
+	for (i=0; i < x.length; i++) {
+		listMailsHtml += x[i]+"<br>";
+	};
+};
+
 var div = document.createElement("div");
 div.id = 'overlay';
 div.innerHTML = '<br><br>Jarvis Chrome Extension';
@@ -31,6 +64,14 @@ xhr.onreadystatechange = function () {
         if (json.profileValidationResponse.name === undefined) {
             buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
             div.appendChild(buttonekDiv);
+			
+			//generate mail suggestions
+			mailGenerate(firstName, lastName);
+			listMails(mailVariations);
+			var div2 = document.createElement("div");
+			div2.id = 'mail-suggestions';
+			div2.innerHTML = listMailsHtml;
+			document.getElementById("jarvis_buttonek").appendChild(div2);
 
             var suggestionsArray = json.profileValidationResponse.suggestions;
 
@@ -54,7 +95,7 @@ xhr.onreadystatechange = function () {
             } else {
                 var noSuggestionsDiv = document.createElement("div");
                 noSuggestionsDiv.id = "no-suggestions";
-                noSuggestionsDiv.innerHTML = "<br>no suggestions from Jarvis";
+                noSuggestionsDiv.innerHTML = "<br><h3>no suggestions from Jarvis</h3>";
                 div.appendChild(noSuggestionsDiv);
             }
         } else {
