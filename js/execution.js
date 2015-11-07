@@ -10,8 +10,8 @@ var fullName = getParameterByName('full-name');
 
 //parts of name variables for email generating
 var nameParts = fullName.split(' ');
-var firstName = nameParts[0].toLowerCase();
-var lastName = nameParts[1].toLowerCase();
+var firstNameDiak = nameParts[0].toLowerCase();
+var lastNameDiak = nameParts[1].toLowerCase();
 var mailVariations = [];
 var listMailsHtml = "";
 function mailGenerate(n1, n2) {
@@ -40,6 +40,26 @@ function listMails(x) {
 		listMailsHtml += x[i]+"<br>";
 	};
 };
+//
+
+//odstraneni diakritiky
+var firstName = bezdiak(firstNameDiak);
+var lastName = bezdiak(lastNameDiak);
+function bezdiak(diakName){ 
+	var tx = "";
+	var sdiak = "áèïéìíåòó šúù ıøÁÈÏÉÌÍÒÓ ŠÚÙ İØ"; 
+	var bdiak = "acdeeilno stuu yrzACDEEINO STUU YRZ";
+	for(p = 0; p < diakName.length; p++){ 
+		if (sdiak.indexOf(diakName.charAt(p)) != -1){ 
+			tx += bdiak.charAt(sdiak.indexOf(diakName.charAt(p))); 
+		}
+		else 
+			tx += diakName.charAt(p); 
+	}
+	return tx;
+}
+//
+
 
 var div = document.createElement("div");
 div.id = 'overlay';
