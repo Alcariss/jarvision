@@ -29,6 +29,30 @@
 					"js/myscript.js"
             ],
             "run_at": "document_end"
+        },
+		{
+            "matches": [
+                "https://github.com/*"
+            ],
+            "css": [
+            	"css/styles.css"
+            ],
+            "js": [ "js/jquery-2.0.2.min.js",
+					"js/github_profile.js"
+            ],
+            "run_at": "document_end"
+        },
+		{
+            "matches": [
+                "https://api.github.com/*"
+            ],
+            "css": [
+            	"css/styles.css"
+            ],
+            "js": [ "js/jquery-2.0.2.min.js",
+					"js/github.js"
+            ],
+            "run_at": "document_end"
         }
     ],
     "permissions": [
