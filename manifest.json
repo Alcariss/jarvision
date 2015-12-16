@@ -1,6 +1,6 @@
 {
   "name": "Jarvis Extension",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Connection to the Jarvis world.",
   "manifest_version": 2,
   "minimum_chrome_version": "20.0.1130.1",
