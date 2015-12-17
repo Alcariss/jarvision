@@ -1,4 +1,4 @@
-//verze 0.5.0
+//verze 0.5.1
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
