@@ -1,4 +1,4 @@
-//verze 0.3.0
+//verze 0.5.0
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -10,31 +10,63 @@ function getParameterByName(name) {
 var publicProfileUri = getParameterByName('profile-uri');
 var fullName = getParameterByName('full-name');
 
+//normalize Czech characters
+var normalize = (function () {
+	var a = ['Ï', 'ö', 'Ë', '¯', 'û', '˝', '·', 'Ì', 'È', '˙', '˘', 'Ú', 'Ô', 'ù', 'Ã', 'ä', '»', 'ÿ', 'é', '›', '¡', 'Õ', '…', '⁄', 'Ÿ', '“', 'œ', 'ç'];
+	var b = ['e', 's', 'c', 'r', 'z', 'y', 'a', 'i', 'e', 'u', 'u', 'n', 'd', 't', 'E', 'S', 'C', 'R', 'Z', 'Y', 'A', 'I', 'E', 'U', 'U', 'N', 'D', 'T'];
+    
+	return function (str) {
+        var i = a.length;
+        while (i--) str = str.replace(a[i], b[i]);
+        return str;
+    };
+}());
+//
+
 //parts of name variables for email generating
-var nameParts = fullName.split(' ');
-var firstNameDiak = nameParts[0].toLowerCase();
-var lastNameDiak = nameParts[1].toLowerCase();
+var fullNameClean = normalize(fullName);
+console.log("Original name: "+fullName);
+console.log("Cisty jmeno :"+fullNameClean);
+var nameParts = fullNameClean.split(' ');
+var firstName = nameParts[0].toLowerCase();
+var lastName = nameParts[1].toLowerCase();
 var mailVariations = [];
 var listMailsHtml = "";
 function mailGenerate(n1, n2) {
 	var variation1 = n1+'.'+n2+'@gmail.com';
 	mailVariations.push(variation1);
-	var variation2 = n1+n2+'@gmail.com';
+	var variation2 = n1[0]+'.'+n2+'@gmail.com';
 	mailVariations.push(variation2);
-	var variation3 = n1[0]+'.'+n2+'@gmail.com';
+	var variation3 = n2+'.'+n1+'@gmail.com';
 	mailVariations.push(variation3);
-	var variation4 = n2+'.'+n1+'@gmail.com';
+	var variation4 = n2+'.'+n1[0]+'@gmail.com';
 	mailVariations.push(variation4);
-	var variation5 = n2+'.'+n1[0]+'@gmail.com';
+	var variation5 = n1+'-'+n2+'@gmail.com';
 	mailVariations.push(variation5);
-	var variation6 = n1+'-'+n2+'@gmail.com';
+	var variation6 = n1[0]+'-'+n2+'@gmail.com';
 	mailVariations.push(variation6);
-	var variation7 = n1[0]+'-'+n2+'@gmail.com';
+	var variation7 = n2+'-'+n1+'@gmail.com';
 	mailVariations.push(variation7);
-	var variation8 = n2+'-'+n1+'@gmail.com';
+	var variation8 = n2+'-'+n1[0]+'@gmail.com';
 	mailVariations.push(variation8);
-	var variation9 = n2+'-'+n1[0]+'@gmail.com';
+	var variation9 = n1+'.'+n2+'@seznam.cz';
 	mailVariations.push(variation9);
+	var variation10 = n1+n2+'@seznam.cz';
+	mailVariations.push(variation10);
+	var variation11 = n1[0]+'.'+n2+'@seznam.cz';
+	mailVariations.push(variation11);
+	var variation12 = n2+'.'+n1+'@seznam.cz';
+	mailVariations.push(variation12);
+	var variation13 = n2+'.'+n1[0]+'@seznam.cz';
+	mailVariations.push(variation13);
+	var variation14 = n1+'-'+n2+'@seznam.cz';
+	mailVariations.push(variation14);
+	var variation15 = n1[0]+'-'+n2+'@seznam.cz';
+	mailVariations.push(variation15);
+	var variation16 = n2+'-'+n1+'@seznam.cz';
+	mailVariations.push(variation16);
+	var variation17 = n2+'-'+n1[0]+'@seznam.cz';
+	mailVariations.push(variation17);
 };
 // email listing
 function listMails(x) {
@@ -44,7 +76,7 @@ function listMails(x) {
 	};
 };
 
-//odstraneni diakritiky
+/*odstraneni diakritiky
 var firstName = bezdiak(firstNameDiak);
 var lastName = bezdiak(lastNameDiak);
 function bezdiak(diakName){ 
@@ -60,7 +92,7 @@ function bezdiak(diakName){
 	}
 	return tx;
 }
-//
+*/
 
 
 var div = document.createElement("div");
