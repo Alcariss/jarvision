@@ -1,5 +1,6 @@
-//verze 0.5.1
-
+//verze
+var version = "0.5.2";
+//
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -160,6 +161,7 @@ function listMails(x) {
 	for (i=0; i < x.length; i++) {
 		listMailsHtml += x[i]+"<br>";
 	};
+    listMailsHtml += "<hr>";
 };
 
 /*odstraneni diakritiky
@@ -183,7 +185,7 @@ function bezdiak(diakName){
 
 var div = document.createElement("div");
 div.id = 'overlay';
-div.innerHTML = '<br><br>Jarvis Chrome Extension';
+div.innerHTML = 'Version: ' + version;
 document.body.appendChild(div);
 
 var buttonekDiv = document.createElement("div");
@@ -213,32 +215,34 @@ xhr.onreadystatechange = function () {
 			div2.id = 'mail-suggestions';
 			div2.innerHTML = listMailsHtml;
 			document.getElementById("jarvis_buttonek").appendChild(div2);
-
+            //
+            //suggested candidates
             var suggestionsArray = json.profileValidationResponse.suggestions;
 
             if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
                 var suggestionsDiv = document.createElement("div");
                 suggestionsDiv.id = "suggestions";
-                var suggestionsTable = "<br><table>";
+                var suggestionsTable = "<h3>Jarvis is not sure, maybe it is: </h3><br>";
                 var suggestionsArrayLength = suggestionsArray.length;
                 for (var i = 0; i < suggestionsArrayLength; i++) {
-                    suggestionsTable += "<tr><td>" + suggestionsArray[i] + "</td></tr>";
+                    suggestionsTable += suggestionsArray[i] + "<br>";
                 }
-                suggestionsTable += "</table>";
+                suggestionsTable += "<hr>";
                 suggestionsDiv.innerHTML = suggestionsTable;
                 div.appendChild(suggestionsDiv);
             } else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
                 // single value, it requires special care
                 var singleSuggestionDiv = document.createElement("div");
                 singleSuggestionDiv.id = "suggestions";
-                singleSuggestionDiv.innerHTML = "<br>" + suggestionsArray;
+                singleSuggestionDiv.innerHTML = "<h3>Jarvis is not sure, maybe it is: </h3><br>" + suggestionsArray;
                 div.appendChild(singleSuggestionDiv);
             } else {
                 var noSuggestionsDiv = document.createElement("div");
                 noSuggestionsDiv.id = "no-suggestions";
-                noSuggestionsDiv.innerHTML = "<br><h3>no suggestions from Jarvis</h3>";
+                noSuggestionsDiv.innerHTML = "<br><h3>Jarvis doesn't know this profile :( <br> Add it!</h3>";
                 div.appendChild(noSuggestionsDiv);
             }
+            //
         } else {
             buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
             div.appendChild(buttonekDiv);
@@ -248,14 +252,22 @@ xhr.onreadystatechange = function () {
                 // multiple notes
                 var notesDiv = document.createElement("div");
                 notesDiv.id = "notesDiv";
+                /*
                 var notesTable = "<br><table border='1'>";
                 var candidateNotesLength = candidateNotes.length;
                 for (var i = 0; i < candidateNotesLength; i++) {
                     notesTable += "<tr><td align='left'>" + candidateNotes[i].created.substring(0, 10) + "<br>";
                     notesTable += candidateNotes[i].author + "<br><br>";
                     notesTable += candidateNotes[i].note + "</td></tr>";
+                */
+                var notesTable = "<h3>Jarvis says:</h3><hr>";
+                var candidateNotesLength = candidateNotes.length;
+                for (var i = 0; i < candidateNotesLength; i++) {
+                    notesTable += candidateNotes[i].created.substring(0, 10) + "<br>";
+                    notesTable += candidateNotes[i].author + "<br><br>";
+                    notesTable += candidateNotes[i].note + "<hr>";    
                 }
-                notesTable += "</table>";
+                //notesTable += "</table>";
                 notesDiv.innerHTML = notesTable;
                 div.appendChild(notesDiv);
             } else if (candidateNotes !== undefined && !isObjectArray(candidateNotes)) {

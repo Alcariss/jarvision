@@ -1,9 +1,9 @@
 #overlay {
 	 position: fixed;
 	 left: 0px;
-     top: 40px;
-     width:90%;
-     height:80%;
+     top: 15px;
+     width:95%;
+     height:95%;
      margin: 10px auto;
      border:1px solid #000;
      padding:5px;
@@ -29,7 +29,11 @@
      z-index: 1000;
 	 opacity: 0.9;
 }
-
+/* uncomment to align notes to left
+#notesDiv {
+	text-align: left;
+}
+*/
 .btn-found {
 	-moz-box-shadow:inset 0px 1px 0px 0px #3dc21b;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #3dc21b;
