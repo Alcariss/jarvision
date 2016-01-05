@@ -1,5 +1,5 @@
 //verze
-var version = "0.5.2";
+var version = "0.5.3";
 //
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -244,9 +244,35 @@ xhr.onreadystatechange = function () {
             }
             //
         } else {
+            // candidate in Jarvis button
             buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
             div.appendChild(buttonekDiv);
-
+            //
+            // placement information
+            var candidatePlacement = json.profileValidationResponse.placementProcesses;
+            //array
+            if (candidatePlacement !== undefined && isObjectArray(candidatePlacement)) {              
+                var placementDiv = document.createElement("div");
+                placementDiv.id = "placementDiv";
+                var placementTable = "<hr><h3>Candidate in process!</h3><br>";
+                for (var i = 0; i < candidatePlacement.length; i++) {
+                    placementTable += "<b>Company:</b> " + candidatePlacement[i].companyName + "<br><b>Date:</b> " + candidatePlacement[i].startedOn.substring(0, 10) + "<br><b>State:</b> " + candidatePlacement[i].state + "<hr>";
+                }
+                placementDiv.innerHTML = placementTable;
+                div.appendChild(placementDiv);
+            // single    
+            } else if (candidatePlacement !== undefined && !isObjectArray(candidatePlacement)) {
+            var placementDiv = document.createElement("div");
+            placementDiv.id = "placementDiv";
+            var placementTable = "<hr><h3>Candidate in process!</h3><br>";
+            placementTable += "<b>Company:</b> " + candidatePlacement.companyName + "<br><b>Date:</b> " + candidatePlacement.startedOn.substring(0, 10) + "<br><b>State:</b> " + candidatePlacement.state + "<hr>";
+            placementDiv.innerHTML = placementTable;
+            div.appendChild(placementDiv);
+            // no placement processes
+            } else {
+            }
+            //
+            // candidate notes
             var candidateNotes = json.profileValidationResponse.candidateNotes;
             if (candidateNotes !== undefined && isObjectArray(candidateNotes)) {
                 // multiple notes

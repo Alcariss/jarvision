@@ -1,6 +1,6 @@
 {
   "name": "Jarvis Extension",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Connection to the Jarvis world.",
   "icons": { "16": "images/icon16.png",
              "48": "images/icon48.png",
