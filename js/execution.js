@@ -182,7 +182,6 @@ function bezdiak(diakName){
 }
 */
 
-
 var div = document.createElement("div");
 div.id = 'overlay';
 div.innerHTML = 'Version: ' + version;
