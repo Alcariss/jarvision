@@ -1,5 +1,5 @@
 //verze
-var version = "0.5.3";
+var version = "0.5.5";
 //
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
