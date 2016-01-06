@@ -1,5 +1,5 @@
 //verze
-var version = "0.5.5";
+var version = "0.5.6";
 //
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -299,12 +299,10 @@ xhr.onreadystatechange = function () {
                 // single value
                 var noteDiv = document.createElement("div");
                 noteDiv.id = "notesDiv";
-                var noteTable = "<br><table border='1'>";
-
-                noteTable += "<tr><td align='left'>" + candidateNotes.created.substring(0, 10) + "<br>";
+                var noteTable = "<h3>Jarvis says:</h3><hr>";
+                noteTable += candidateNotes.created.substring(0, 10) + "<br>";
                 noteTable += candidateNotes.author + "<br><br>";
-                noteTable += candidateNotes.note + "</td></tr>";
-                noteTable += "</table>";
+                noteTable += candidateNotes.note + "<hr>";
                 noteDiv.innerHTML = noteTable;
                 div.appendChild(noteDiv);
             } else {
