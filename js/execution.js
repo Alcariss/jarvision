@@ -238,7 +238,7 @@ xhr.onreadystatechange = function () {
             } else {
                 var noSuggestionsDiv = document.createElement("div");
                 noSuggestionsDiv.id = "no-suggestions";
-                noSuggestionsDiv.innerHTML = "<br><h3>Jarvis doesn't know this profile :( <br> Add it!</h3>";
+                noSuggestionsDiv.innerHTML = "<br><h3>Jarvis doesn't know " + firstName + " :( <br> Add it!</h3>";
                 div.appendChild(noSuggestionsDiv);
             }
             //
