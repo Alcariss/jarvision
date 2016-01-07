@@ -187,8 +187,24 @@ div.id = 'overlay';
 div.innerHTML = 'Version: ' + version;
 document.body.appendChild(div);
 
-var buttonekDiv = document.createElement("div");
-buttonekDiv.id = 'jarvis_buttonek';
+//var buttonekDiv = document.createElement("div");
+//buttonekDiv.id = 'jarvis_buttonek';
+
+function populateButton(cssClass, text) {
+    var buttonekDiv = document.createElement("div");
+    buttonekDiv.id = 'jarvis_buttonek';
+    buttonekDiv.innerHTML = "<br><a class='"+ cssClass + "' href=''>" + text + "</a>";
+    div.appendChild(buttonekDiv);
+};
+
+function spawnMailSuggestions() {
+    mailGenerate(firstName, lastName);
+    listMails(mailVariations);
+    var div2 = document.createElement("div");
+    div2.id = 'mail-suggestions';
+    div2.innerHTML = listMailsHtml;
+    document.getElementById("jarvis_buttonek").appendChild(div2);
+}
 
 
 xhr = new XMLHttpRequest();
@@ -204,21 +220,25 @@ xhr.onreadystatechange = function () {
         var json = JSON.parse(xhr.responseText);
         // test wether we found 
         if (json.profileValidationResponse.name === undefined) {
-            buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
-            div.appendChild(buttonekDiv);
+            /*populateButton('btn-not-found', 'Not in Jarvis yet');
+            //buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
+            //div.appendChild(buttonekDiv);
 			
 			//generate mail suggestions
-			mailGenerate(firstName, lastName);
-			listMails(mailVariations);
-			var div2 = document.createElement("div");
-			div2.id = 'mail-suggestions';
-			div2.innerHTML = listMailsHtml;
-			document.getElementById("jarvis_buttonek").appendChild(div2);
+			//mailGenerate(firstName, lastName);
+			//listMails(mailVariations);
+			//var div2 = document.createElement("div");
+			//div2.id = 'mail-suggestions';
+			//div2.innerHTML = listMailsHtml;
+			//document.getElementById("jarvis_buttonek").appendChild(div2);
+            */
             //
             //suggested candidates
             var suggestionsArray = json.profileValidationResponse.suggestions;
 
             if (suggestionsArray !== undefined && isObjectArray(suggestionsArray)) {
+                // multiple suggestions
+                populateButton('btn-maybe', 'Maybe in Jarvis?');
                 var suggestionsDiv = document.createElement("div");
                 suggestionsDiv.id = "suggestions";
                 var suggestionsTable = "<h3>Jarvis is not sure, maybe it is: </h3><br>";
@@ -230,22 +250,27 @@ xhr.onreadystatechange = function () {
                 suggestionsDiv.innerHTML = suggestionsTable;
                 div.appendChild(suggestionsDiv);
             } else if (suggestionsArray !== undefined && !isObjectArray(suggestionsArray)) {
-                // single value, it requires special care
+                // single value, requires special care
+                populateButton('btn-maybe', 'Maybe in Jarvis?');
                 var singleSuggestionDiv = document.createElement("div");
                 singleSuggestionDiv.id = "suggestions";
                 singleSuggestionDiv.innerHTML = "<h3>Jarvis is not sure, maybe it is: </h3><br>" + suggestionsArray;
                 div.appendChild(singleSuggestionDiv);
             } else {
+                // not in jarvis
+                populateButton('btn-not-found', 'Not in Jarvis yet');
+                spawnMailSuggestions();
                 var noSuggestionsDiv = document.createElement("div");
                 noSuggestionsDiv.id = "no-suggestions";
-                noSuggestionsDiv.innerHTML = "<br><h3>Jarvis doesn't know " + firstName + " :( <br> Add it!</h3>";
+                noSuggestionsDiv.innerHTML = "<br><h3>Jarvis doesn't know " + firstName + "<br>:( <br> Add it!</h3>";
                 div.appendChild(noSuggestionsDiv);
             }
             //
         } else {
             // candidate in Jarvis button
-            buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
-            div.appendChild(buttonekDiv);
+            populateButton('btn-found', 'Already in Jarvis');
+            //buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
+            //div.appendChild(buttonekDiv);
             //
             // placement information
             var candidatePlacement = json.profileValidationResponse.placementProcesses;
