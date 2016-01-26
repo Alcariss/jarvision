@@ -164,31 +164,10 @@ function listMails(x) {
     listMailsHtml += "<hr>";
 };
 
-/*odstraneni diakritiky
-var firstName = bezdiak(firstNameDiak);
-var lastName = bezdiak(lastNameDiak);
-function bezdiak(diakName){ 
-	var tx = "";
-	var sdiak = "·ËÔÈÏÌÂÚÛ öù˙˘ ˝¯û¡»œ…ÃÕ“” äç⁄Ÿ ›ÿé"; 
-	var bdiak = "acdeeilno stuu yrzACDEEINO STUU YRZ";
-	for(p = 0; p < diakName.length; p++){ 
-		if (sdiak.indexOf(diakName.charAt(p)) != -1){ 
-			tx += bdiak.charAt(sdiak.indexOf(diakName.charAt(p))); 
-		}
-		else 
-			tx += diakName.charAt(p); 
-	}
-	return tx;
-}
-*/
-
 var div = document.createElement("div");
 div.id = 'overlay';
 div.innerHTML = 'Version: ' + version;
 document.body.appendChild(div);
-
-//var buttonekDiv = document.createElement("div");
-//buttonekDiv.id = 'jarvis_buttonek';
 
 function populateButton(cssClass, text) {
     var buttonekDiv = document.createElement("div");
@@ -206,10 +185,8 @@ function spawnMailSuggestions() {
     document.getElementById("jarvis_buttonek").appendChild(div2);
 }
 
-
 xhr = new XMLHttpRequest();
-// var url = "https://localhost:8443/jarvis/rest/validator";
-var url = "https://jarvis2.alviso.cz:8443/jarvis/rest/validator";
+var url = "foo";
 xhr.open("POST", url, true);
 xhr.setRequestHeader("Content-type", "application/json");
 
@@ -220,19 +197,6 @@ xhr.onreadystatechange = function () {
         var json = JSON.parse(xhr.responseText);
         // test wether we found 
         if (json.profileValidationResponse.name === undefined) {
-            /*populateButton('btn-not-found', 'Not in Jarvis yet');
-            //buttonekDiv.innerHTML = "<br><a class='btn-not-found' href='' >Not in Jarvis yet</a>";
-            //div.appendChild(buttonekDiv);
-			
-			//generate mail suggestions
-			//mailGenerate(firstName, lastName);
-			//listMails(mailVariations);
-			//var div2 = document.createElement("div");
-			//div2.id = 'mail-suggestions';
-			//div2.innerHTML = listMailsHtml;
-			//document.getElementById("jarvis_buttonek").appendChild(div2);
-            */
-            //
             //suggested candidates
             var suggestionsArray = json.profileValidationResponse.suggestions;
 
@@ -269,9 +233,6 @@ xhr.onreadystatechange = function () {
         } else {
             // candidate in Jarvis button
             populateButton('btn-found', 'Already in Jarvis');
-            //buttonekDiv.innerHTML = "<br><a class='btn-found' href='' >Already in Jarvis</a>";
-            //div.appendChild(buttonekDiv);
-            //
             // placement information
             var candidatePlacement = json.profileValidationResponse.placementProcesses;
             //array
@@ -302,14 +263,6 @@ xhr.onreadystatechange = function () {
                 // multiple notes
                 var notesDiv = document.createElement("div");
                 notesDiv.id = "notesDiv";
-                /*
-                var notesTable = "<br><table border='1'>";
-                var candidateNotesLength = candidateNotes.length;
-                for (var i = 0; i < candidateNotesLength; i++) {
-                    notesTable += "<tr><td align='left'>" + candidateNotes[i].created.substring(0, 10) + "<br>";
-                    notesTable += candidateNotes[i].author + "<br><br>";
-                    notesTable += candidateNotes[i].note + "</td></tr>";
-                */
                 var notesTable = "<h3>Jarvis says:</h3><hr>";
                 var candidateNotesLength = candidateNotes.length;
                 for (var i = 0; i < candidateNotesLength; i++) {
